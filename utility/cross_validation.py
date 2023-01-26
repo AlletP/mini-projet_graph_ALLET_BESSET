@@ -17,7 +17,7 @@ def split_5_folds(configx):
     K = configx.k_fold_num
     names = ['user_id', 'item_id', 'rating']
     if not os.path.isfile(configx.rating_path):
-        print("the format of rating data is wrong")
+        print("the format of rating data is wrong (split_5_folds)")
         sys.exit()
     df = pd.read_csv(configx.rating_path, sep=configx.sep, names=names)
     ratings = coo_matrix((df.rating, (df.user_id, df.item_id)))
@@ -61,14 +61,15 @@ def split_5_folds(configx):
             vals[k][from_ind:to_ind] = rating_vals[k_index_list]
             nonzeros[k] += sum(k_index_list)
 
-    if not os.path.exists('../data/cv'):
-        os.makedirs('../data/cv')
-        print('../data/cv folder has been established.')
+    cv_folder = configx.rating_cv_path
+    if not os.path.exists(cv_folder):
+        os.makedirs(cv_folder)
+        print('%s folder has been established.' %cv_folder)
 
     for k, (row, col, val, nonzero) in enumerate(zip(rows, cols, vals, nonzeros)):
         bucket_df = pd.DataFrame({'user': row[:nonzero], 'item': col[:nonzero], 'rating': val[:nonzero]},
                                  columns=['user', 'item', 'rating'])
-        bucket_df.to_csv("../data/cv/%s-%d.csv" % (configx.dataset_name, k), sep=configx.sep, header=False, index=False)
+        bucket_df.to_csv("%s%s-%d.csv" % (cv_folder, configx.dataset_name, k), sep=configx.sep, header=False, index=False)
         print("%s -fold%d data generated finished!" % (configx.dataset_name, k))
 
     print("All Data Generated Done!")

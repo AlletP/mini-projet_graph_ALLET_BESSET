@@ -16,9 +16,9 @@ class TrustGetter(object):
 
     """
 
-    def __init__(self):
+    def __init__(self, config):
         super(TrustGetter, self).__init__()
-        self.config = ConfigX()
+        self.config = config
 
         self.user = {}  # used to store the order of users
         self.relations = self.get_relations()
@@ -57,7 +57,7 @@ class TrustGetter(object):
             sys.exit()
         with open(self.config.trust_path, 'r') as f:
             for index, line in enumerate(f):
-                u_from, u_to, t = line.strip('\r\n').split(self.config.sep)
+                blank, u_from, u_to, t = line.strip('\r\n').split(self.config.sep)
                 yield (int(u_from), int(u_to), float(t))
 
     def get_followees(self, u):

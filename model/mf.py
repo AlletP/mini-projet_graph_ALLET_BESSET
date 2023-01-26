@@ -19,9 +19,9 @@ class MF(object):
 
     """
 
-    def __init__(self):
+    def __init__(self, config):
         super(MF, self).__init__()
-        self.config = ConfigX()
+        self.config = config
         cpprint(self.config.__dict__)  #print the configuration
 
         # self.rg = RatingGetter()  # loading raing data
@@ -31,7 +31,7 @@ class MF(object):
         pass
 
     def init_model(self,k):
-        self.read_data(k)
+        self.read_data(k, self.config)
         self.P = np.random.rand(self.rg.get_train_size()[0], self.config.factor) / (
         self.config.factor ** 0.5)  # latent user matrix
         self.Q = np.random.rand(self.rg.get_train_size()[1], self.config.factor) / (
@@ -40,8 +40,8 @@ class MF(object):
         self.lastRmse, self.lastMae = 10.0,10.0
         pass
 
-    def read_data(self,k):
-        self.rg = RatingGetter(k)
+    def read_data(self, k, config):
+        self.rg = RatingGetter(k, config)
         pass
 
     def train_model(self,k):

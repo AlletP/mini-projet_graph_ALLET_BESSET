@@ -3,7 +3,7 @@ import sys
 
 sys.path.append("..")
 import numpy as np
-from mf import MF
+from model.mf import MF
 from reader.trust import TrustGetter
 from utility.matrix import SimMatrix
 from utility.similarity import pearson_sp, cosine_sp
@@ -17,12 +17,12 @@ class SocialReg(MF):
     Ma H, Zhou D, Liu C, et al. Recommender systems with social regularization[C]//Proceedings of the fourth ACM international conference on Web search and data mining. ACM, 2011: 287-296.
     """
 
-    def __init__(self):
-        super(SocialReg, self).__init__()
+    def __init__(self, config):
+        super(SocialReg, self).__init__(config)
         # self.config.lambdaP = 0.001
         # self.config.lambdaQ = 0.001
         self.config.alpha = 0.1
-        self.tg = TrustGetter()
+        self.tg = TrustGetter(config)
         # self.init_model()
 
     def init_model(self, k):
@@ -89,6 +89,30 @@ class SocialReg(MF):
             iteration += 1
             if self.isConverged(iteration):
                 break
+
+def mainSocialReg(config):
+    # srg = SocialReg()
+    # srg.train_model(0)
+    # coldrmse = srg.predict_model_cold_users()
+    # print('cold start user rmse is :' + str(coldrmse))
+    # srg.show_rmse()
+
+    rmses = []
+    maes = []
+    tcsr = SocialReg(config)
+    # print(bmf.rg.trainSet_u[1])
+    for i in range(tcsr.config.k_fold_num):
+        print('the %dth cross validation training' % i)
+        tcsr.train_model(i)
+        rmse, mae = tcsr.predict_model()
+        rmses.append(rmse)
+        maes.append(mae)
+    rmse_avg = sum(rmses) / 5
+    mae_avg = sum(maes) / 5
+    print("the rmses are %s" % rmses)
+    print("the maes are %s" % maes)
+    print("the average of rmses is %s " % rmse_avg)
+    print("the average of maes is %s " % mae_avg)
 
 
 if __name__ == '__main__':

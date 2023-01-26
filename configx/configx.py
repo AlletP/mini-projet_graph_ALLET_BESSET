@@ -13,9 +13,9 @@ class ConfigX(object):
         # Dataset Parameters
         self.dataset_name = "ft"  # short name of datasets ["ft":"filmtrust","db":"douban","ca":"ciao"]
         self.k_fold_num = 5  # the num of cross validation
-        self.rating_path = "../data/%s_ratings.txt" % self.dataset_name  # the raw ratings data file
+        self.rating_path = "data/%s_ratings.txt" % self.dataset_name  # the raw ratings data file
         self.rating_cv_path = "../data/cv/"  # the cross validation file of ratings data
-        self.trust_path = '../data/%s_trust.txt' % self.dataset_name  # the raw trust data file
+        self.trust_path = 'data/%s_trust.txt' % self.dataset_name  # the raw trust data file
         self.sep = ' '  # the separator of rating and trust data in triple tuple
         self.random_state = 0  # the seed of random number
         self.size = 0.8  # the ratio of train set
