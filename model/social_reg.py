@@ -90,7 +90,7 @@ class SocialReg(MF):
             if self.isConverged(iteration):
                 break
 
-def mainSocialReg(config):
+def mainSocialReg(config, rank):
     # srg = SocialReg()
     # srg.train_model(0)
     # coldrmse = srg.predict_model_cold_users()
@@ -101,12 +101,18 @@ def mainSocialReg(config):
     maes = []
     tcsr = SocialReg(config)
     # print(bmf.rg.trainSet_u[1])
-    for i in range(tcsr.config.k_fold_num):
-        print('the %dth cross validation training' % i)
-        tcsr.train_model(i)
-        rmse, mae = tcsr.predict_model()
-        rmses.append(rmse)
-        maes.append(mae)
+    # for i in range(tcsr.config.k_fold_num):
+    #     print('the %dth cross validation training' % i)
+    #     tcsr.train_model(i)
+    #     rmse, mae = tcsr.predict_model()
+    #     rmses.append(rmse)
+    #     maes.append(mae)
+    print('the %dth cross validation training' % rank)
+    tcsr.train_model(rank)
+    rmse, mae = tcsr.predict_model()
+    rmses.append(rmse)
+    maes.append(mae)
+
     rmse_avg = sum(rmses) / 5
     mae_avg = sum(maes) / 5
     print("the rmses are %s" % rmses)
