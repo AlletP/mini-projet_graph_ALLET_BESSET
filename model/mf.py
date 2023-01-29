@@ -100,7 +100,7 @@ class MF(object):
         prediction =round( min( max( prediction , self.config.min_val ) , self.config.max_val ) ,3)
         return prediction
 
-    def isConverged(self, iter):
+    def isConverged(self, iter,verbose=True):
         from math import isnan
         if isnan(self.loss):
             print(
@@ -118,9 +118,9 @@ class MF(object):
                 return cond
             self.lastRmse = rmse
             self.lastMae = mae
-
-        print('%s iteration %d: loss = %.4f, delta_loss = %.5f learning_Rate = %.5f rmse=%.5f mae=%.5f' % \
-              (self.__class__, iter, self.loss, deltaLoss, self.config.lr, rmse, mae))
+        if(verbose):
+            print('%s iteration %d: loss = %.4f, delta_loss = %.5f learning_Rate = %.5f rmse=%.5f mae=%.5f' % \
+                  (self.__class__, iter, self.loss, deltaLoss, self.config.lr, rmse, mae))
 
         # check if converged
         cond = abs(deltaLoss) < self.config.threshold

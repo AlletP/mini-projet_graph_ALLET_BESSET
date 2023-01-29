@@ -12,7 +12,7 @@ class ConfigX(object):
 
         # Dataset Parameters
         self.dataset_name = "ep"  # short name of datasets ["ft":"filmtrust","db":"douban","ca":"ciao"]
-        self.k_fold_num = 5  # the num of cross validation
+        self.k_fold_num = 12 # the num of cross validation
         self.rating_path = "data/epinion/ratings_data.txt" # the raw ratings data file
         self.rating_cv_path = "data/cv/epinion_80/"  # the cross validation file of ratings data
         self.trust_path = 'data/epinion/trust_data.txt' # the raw trust data file
@@ -34,6 +34,6 @@ class ConfigX(object):
         self.isEarlyStopping = False  # early stopping flag
 
         # Output Parameters
-        self.result_path = "../results/epinion_80"  # the directory of results
+        self.result_path = "results/epinion_80"  # the directory of results
         self.model_path = "model/"  # the directory of well-trained variables
         self.result_log_path = "log/"  # the directory of logs when training models

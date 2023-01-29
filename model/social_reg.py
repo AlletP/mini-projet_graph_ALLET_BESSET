@@ -46,7 +46,7 @@ class SocialReg(MF):
         sim = (pearson_sp(self.rg.get_row(u), self.rg.get_row(k)) + 1.0) / 2.0  # fit the value into range [0.0,1.0]
         return sim
 
-    def train_model(self, k):
+    def train_model(self, k,verbose=True):
         super(SocialReg, self).train_model(k)
         iteration = 0
         while iteration < self.config.maxIter:
@@ -87,60 +87,35 @@ class SocialReg(MF):
                     self.Q * self.Q).sum()
 
             iteration += 1
-            if self.isConverged(iteration):
+            if self.isConverged(iteration, verbose):
                 break
 
-def mainSocialReg(config, rank):
-    # srg = SocialReg()
-    # srg.train_model(0)
-    # coldrmse = srg.predict_model_cold_users()
-    # print('cold start user rmse is :' + str(coldrmse))
-    # srg.show_rmse()
+def soc_reg(config, rank, verbose = True):
 
     rmses = []
     maes = []
     tcsr = SocialReg(config)
     # print(bmf.rg.trainSet_u[1])
-    # for i in range(tcsr.config.k_fold_num):
-    #     print('the %dth cross validation training' % i)
-    #     tcsr.train_model(i)
-    #     rmse, mae = tcsr.predict_model()
-    #     rmses.append(rmse)
-    #     maes.append(mae)
-    print('the %dth cross validation training' % rank)
-    tcsr.train_model(rank)
-    rmse, mae = tcsr.predict_model()
-    rmses.append(rmse)
-    maes.append(mae)
-
-    rmse_avg = sum(rmses) / 5
-    mae_avg = sum(maes) / 5
-    print("the rmses are %s" % rmses)
-    print("the maes are %s" % maes)
-    print("the average of rmses is %s " % rmse_avg)
-    print("the average of maes is %s " % mae_avg)
-
-
-if __name__ == '__main__':
-    # srg = SocialReg()
-    # srg.train_model(0)
-    # coldrmse = srg.predict_model_cold_users()
-    # print('cold start user rmse is :' + str(coldrmse))
-    # srg.show_rmse()
-
-    rmses = []
-    maes = []
-    tcsr = SocialReg()
-    # print(bmf.rg.trainSet_u[1])
-    for i in range(tcsr.config.k_fold_num):
-        print('the %dth cross validation training' % i)
-        tcsr.train_model(i)
+    if(rank == -1):
+        for i in range(tcsr.config.k_fold_num):
+            print('the %dth cross validation training' % i)
+            tcsr.train_model(i,verbose=verbose)
+            rmse, mae = tcsr.predict_model()
+            rmses.append(rmse)
+            maes.append(mae)
+        rmse_avg = sum(rmses) / 5
+        mae_avg = sum(maes) / 5
+        print("the rmses are %s" % rmses)
+        print("the maes are %s" % maes)
+        print("the average of rmses is %s " % rmse_avg)
+        print("the average of maes is %s " % mae_avg)
+        pass
+    else:
+        print('the %dth cross validation training' % rank)
+        tcsr.train_model(rank,verbose=verbose)
         rmse, mae = tcsr.predict_model()
         rmses.append(rmse)
         maes.append(mae)
-    rmse_avg = sum(rmses) / 5
-    mae_avg = sum(maes) / 5
-    print("the rmses are %s" % rmses)
-    print("the maes are %s" % maes)
-    print("the average of rmses is %s " % rmse_avg)
-    print("the average of maes is %s " % mae_avg)
+        print("the rmses are %s" % rmses)
+        print("the maes are %s" % maes)
+        return rmses, maes

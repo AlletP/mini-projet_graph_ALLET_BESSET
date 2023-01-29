@@ -57,6 +57,7 @@ class TrustGetter(object):
             sys.exit()
         with open(self.config.trust_path, 'r') as f:
             for index, line in enumerate(f):
+                print(line.strip('\r\n').split(self.config.sep))
                 blank, u_from, u_to, t = line.strip('\r\n').split(self.config.sep)
                 yield (int(u_from), int(u_to), float(t))
 
