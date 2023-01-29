@@ -90,7 +90,7 @@ class SocialReg(MF):
             if self.isConverged(iteration, verbose):
                 break
 
-def soc_reg(config, rank, verbose = True):
+def soc_reg(config, rank=-1, verbose = True):
 
     rmses = []
     maes = []

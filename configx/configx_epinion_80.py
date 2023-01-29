@@ -12,7 +12,7 @@ class ConfigX(object):
 
         # Dataset Parameters
         self.dataset_name = "ep"  # short name of datasets ["ft":"filmtrust","db":"douban","ca":"ciao"]
-        self.k_fold_num = 12 # the num of cross validation
+        self.k_fold_num = 5 # the num of cross validation
         self.rating_path = "data/epinion/ratings_data.txt" # the raw ratings data file
         self.rating_cv_path = "data/cv/epinion_80/"  # the cross validation file of ratings data
         self.trust_path = 'data/epinion/trust_data.txt' # the raw trust data file
@@ -21,7 +21,7 @@ class ConfigX(object):
         self.size = 0.8  # the ratio of train set
         self.min_val = 0.5  # the minimum rating value
         self.max_val = 4.0  # the maximum rating value
-
+        self.median=3
         # Model HyperParameter
         self.coldUserRating = 5  # the number of ratings a cold start user rated on items
         self.factor = 10  # the size of latent dimension for user and item.

@@ -19,6 +19,7 @@ def split_5_folds(configx):
     if not os.path.isfile(configx.rating_path):
         print("the format of rating data is wrong (split_5_folds)")
         sys.exit()
+    
     df = pd.read_csv(configx.rating_path, sep=configx.sep, names=names)
     ratings = coo_matrix((df.rating, (df.user_id, df.item_id)))
     users = np.unique(ratings.row)

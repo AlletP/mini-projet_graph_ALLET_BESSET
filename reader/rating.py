@@ -83,7 +83,7 @@ class RatingGetter(object):
                 data_path = self.config.rating_cv_path + self.config.dataset_name + "-" + str(i) + ".csv"
                 # if not os.path.exists
                 if not os.path.isfile(data_path):
-                    print("the format of ratings data is wrong! (trainSet)")
+                    print("the format of ratings data is wrong!")
                     sys.exit()
                 with open(data_path, 'r') as f:
                     for index, line in enumerate(f):
@@ -125,8 +125,12 @@ class RatingGetter(object):
     def getDataSet(self):
         with open(self.config.rating_path, 'r') as f:
             for index, line in enumerate(f):
-                u, i, r = line.strip('\r\n').split(self.config.sep)
-                self.dataSet_u[int(u)][int(i)] = float(r)
+                if (self.config.dataset_name=="ep") :
+                    u, i, r = line.strip('\r\n').split(self.config.sep)
+                    self.dataSet_u[int(u)][int(i)] = float(r)
+                else :
+                    u, i, t, d, m, y, h, mi, s = line.strip('\r\n').split(self.config.sep)
+                    self.dataSet_u[int(u)][int(i)] = float(t)
 
     def get_train_size(self):
         return (len(self.user), len(self.item))

@@ -2,7 +2,7 @@ import multiprocessing as mp
 import time
 from multiprocessing import Manager, Process
 import os
-import model.social_reg as sr
+import model.social_reg_ALLET_BESSET as sr
 from pathlib import Path
 
 
@@ -11,6 +11,7 @@ def slave(config,rank, res_dict,verbose=True):
     print(f"Process {rank} started at {time.strftime('%d %b %Y %H:%M:%S', time.gmtime(start))}")
     rmses, maes = sr.soc_reg(config, rank, verbose)
     res_dict[rank] = (rmses[0], maes[0])
+    print("ici")
     print(res_dict)
     end = time.time()
     print(f"Process {rank} stopped at {time.strftime('%d %b %Y %H:%M:%S', time.gmtime(end))}")
@@ -38,16 +39,18 @@ def para(config,verbose):
         p.start()
 
     for p in proc:
+        print("début")
         p.join()
 
     rmse_sum = 0
     mae_sum = 0
+
     for i in range(nb_proc):
         rmse_sum += res_dict[i][0]
         mae_sum += res_dict[i][1]
 
-    rmse_avg = rmse_sum / num_processes
-    mae_avg = mae_sum / num_processes
+    rmse_avg = rmse_sum / nb_proc
+    mae_avg = mae_sum / nb_proc
 
     end = time.time()
     print(f"The average of RMSES is {rmse_avg}")
@@ -59,9 +62,9 @@ def para(config,verbose):
     Path(res_dir).mkdir(parents=True, exist_ok=True)
     if(not (os.path.exists(res_dir+"/res.txt"))):
         f=open('res.txt',"x")
-        f.writelines(res)
+        f.writelines(res_str)
         f.close()
     else:
         f=open('res.txt',"w")
-        f.writelines(res)
+        f.writelines(res_str)
         f.close()

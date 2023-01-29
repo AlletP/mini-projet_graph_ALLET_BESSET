@@ -177,3 +177,18 @@ def euclidean_sp(x1, x2):
         return 1.0 / total
     except ZeroDivisionError:
         return 0
+
+def jaccard(x1, x2):
+    inter = 0.0
+    union = 0.0
+
+    for k in x1:
+        if k in x2:
+            inter += 1.0
+    
+    union = len(x1) + len(x2) - inter
+
+    try:
+        return float(inter) / float(union)
+    except ZeroDivisionError:
+        return 0
