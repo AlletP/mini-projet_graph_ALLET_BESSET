@@ -177,3 +177,22 @@ def euclidean_sp(x1, x2):
         return 1.0 / total
     except ZeroDivisionError:
         return 0
+
+# Ajout des nouvelles mesures de similarité
+
+def jaccard(x1, x2):
+    inter = 0.0
+    union = 0.0
+    
+    print(x1)
+    print(x2)
+
+    for k in x1:
+        if k in x2:
+            inter += x1[k] * x2[k]
+            union += 1
+    
+    try:
+        return inter / union
+    except ZeroDivisionError:
+        return 0
