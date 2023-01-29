@@ -19,9 +19,9 @@ class MF(object):
 
     """
 
-    def __init__(self):
+    def __init__(self, config):
         super(MF, self).__init__()
-        self.config = ConfigX()
+        self.config = config
         cpprint(self.config.__dict__)  #print the configuration
 
         # self.rg = RatingGetter()  # loading raing data
@@ -31,7 +31,7 @@ class MF(object):
         pass
 
     def init_model(self,k):
-        self.read_data(k)
+        self.read_data(k, self.config)
         self.P = np.random.rand(self.rg.get_train_size()[0], self.config.factor) / (
         self.config.factor ** 0.5)  # latent user matrix
         self.Q = np.random.rand(self.rg.get_train_size()[1], self.config.factor) / (
@@ -40,8 +40,8 @@ class MF(object):
         self.lastRmse, self.lastMae = 10.0,10.0
         pass
 
-    def read_data(self,k):
-        self.rg = RatingGetter(k)
+    def read_data(self, k, config):
+        self.rg = RatingGetter(k, config)
         pass
 
     def train_model(self,k):
@@ -100,7 +100,7 @@ class MF(object):
         prediction =round( min( max( prediction , self.config.min_val ) , self.config.max_val ) ,3)
         return prediction
 
-    def isConverged(self, iter):
+    def isConverged(self, iter,verbose=True):
         from math import isnan
         if isnan(self.loss):
             print(
@@ -118,9 +118,9 @@ class MF(object):
                 return cond
             self.lastRmse = rmse
             self.lastMae = mae
-
-        print('%s iteration %d: loss = %.4f, delta_loss = %.5f learning_Rate = %.5f rmse=%.5f mae=%.5f' % \
-              (self.__class__, iter, self.loss, deltaLoss, self.config.lr, rmse, mae))
+        if(verbose):
+            print('%s iteration %d: loss = %.4f, delta_loss = %.5f learning_Rate = %.5f rmse=%.5f mae=%.5f' % \
+                  (self.__class__, iter, self.loss, deltaLoss, self.config.lr, rmse, mae))
 
         # check if converged
         cond = abs(deltaLoss) < self.config.threshold
