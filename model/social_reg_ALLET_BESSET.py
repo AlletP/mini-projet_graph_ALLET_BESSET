@@ -6,7 +6,7 @@ import numpy as np
 from model.mf import MF
 from reader.trust import TrustGetter
 from utility.matrix import SimMatrix
-from utility.similarity import pearson_sp, cosine_sp, jaccard
+from utility.similarity import pearson_sp, cosine_sp, jaccard_sp
 from utility import util
 from utility import graph
 
@@ -45,7 +45,7 @@ class SocialReg(MF):
         # util.save_data(self.user_sim,'../data/sim/ft_cf_soreg08.pkl')
 
     def get_sim(self, u, k):
-        sim = (jaccard(self.rg.get_row(u), self.rg.get_row(k)))  # fit the value into range [0.0,1.0]
+        sim = (jaccard_sp(self.rg.get_row(u), self.rg.get_row(k)))  # fit the value into range [0.0,1.0]
         return sim
 
     def train_model(self, k,verbose=True):

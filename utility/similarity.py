@@ -192,3 +192,18 @@ def jaccard(x1, x2):
         return float(inter) / float(union)
     except ZeroDivisionError:
         return 0
+
+def jaccard_sp(x1, x2):
+    up = 0.0
+    down = 0.0
+
+    for k in x1:
+        if k in x2:
+            up += x1[k] * x2[k]
+    
+    down = pow(len(x1), 2) + pow(len(x2), 2) - up
+
+    try:
+        return float(up) / float(down)
+    except ZeroDivisionError:
+        return 0

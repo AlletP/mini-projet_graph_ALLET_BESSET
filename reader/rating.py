@@ -125,13 +125,9 @@ class RatingGetter(object):
     def getDataSet(self):
         with open(self.config.rating_path, 'r') as f:
             for index, line in enumerate(f):
-                if (self.config.dataset_name=="ep") :
-                    u, i, r = line.strip('\r\n').split(self.config.sep)
-                    self.dataSet_u[int(u)][int(i)] = float(r)
-                else :
-                    u, i, t, d, m, y, h, mi, s = line.strip('\r\n').split(self.config.sep)
-                    self.dataSet_u[int(u)][int(i)] = float(t)
-
+                u, i, r = line.strip('\r\n').split(self.config.sep)
+                self.dataSet_u[int(u)][int(i)] = float(r)
+    
     def get_train_size(self):
         return (len(self.user), len(self.item))
 

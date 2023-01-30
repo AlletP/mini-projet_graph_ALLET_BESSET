@@ -37,9 +37,9 @@ def para(config,verbose):
         p = Process(target=slave, args=(config,rank, res_dict,verbose))
         proc.append(p)
         p.start()
-
+        
+    print("Début des calculs en parallèle")
     for p in proc:
-        print("début")
         p.join()
 
     rmse_sum = 0
@@ -61,10 +61,10 @@ def para(config,verbose):
     #sauvegarde des résultats dans des fichiers textes
     Path(res_dir).mkdir(parents=True, exist_ok=True)
     if(not (os.path.exists(res_dir+"/res.txt"))):
-        f=open('res.txt',"x")
+        f=open(res_dir+'res.txt',"x")
         f.writelines(res_str)
         f.close()
     else:
-        f=open('res.txt',"w")
+        f=open(res_dir+'res.txt',"w")
         f.writelines(res_str)
         f.close()

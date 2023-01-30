@@ -13,7 +13,7 @@ class ConfigX(object):
         # Dataset Parameters
         self.dataset_name = "deli"  # short name of datasets ["ft":"filmtrust","db":"douban","ca":"ciao"]
         self.k_fold_num = 5 # the num of cross validation
-        self.rating_path = "data/delicious/user_taggedbookmarks.dat" # the raw ratings data file
+        self.rating_path = "data/delicious/deli_trust.txt" # the raw ratings data file
         self.rating_cv_path = "data/cv/delicious_80/"  # the cross validation file of ratings data
         self.trust_path = 'data/delicious/user_contacts.dat' # the raw trust data file
         self.sep = '\t'  # the separator of rating and trust data in triple tuple
