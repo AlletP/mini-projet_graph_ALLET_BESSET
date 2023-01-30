@@ -1,0 +1,3 @@
+The average of RMSES is 3.0288513053111057
+The average of MAES is 1.803913199529049
+Total execution time : 795.6407611370087 seconds

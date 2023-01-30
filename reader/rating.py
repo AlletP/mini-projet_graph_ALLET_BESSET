@@ -16,9 +16,9 @@ class RatingGetter(object):
     read rating data and save the global parameters
     """
 
-    def __init__(self, k):
+    def __init__(self, k, config):
         super(RatingGetter, self).__init__()
-        self.config = ConfigX()
+        self.config = config
         self.k_current = k
         self.user = {}
         self.item = {}
@@ -95,7 +95,7 @@ class RatingGetter(object):
         k = self.k_current
         data_path = self.config.rating_cv_path + self.config.dataset_name + "-" + str(k) + ".csv"
         if not os.path.isfile(data_path):
-            print("the format of ratings data is wrong!")
+            print("the format of ratings data is wrong! (testSet)")
             sys.exit()
         with open(data_path, 'r') as f:
             for index, line in enumerate(f):
@@ -127,7 +127,7 @@ class RatingGetter(object):
             for index, line in enumerate(f):
                 u, i, r = line.strip('\r\n').split(self.config.sep)
                 self.dataSet_u[int(u)][int(i)] = float(r)
-
+    
     def get_train_size(self):
         return (len(self.user), len(self.item))
 
